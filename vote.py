@@ -4,6 +4,7 @@ import time
 from datetime import datetime
 import re
 import sys
+import requests
 
 def get_credentials():
     file = open('credentials.txt', "r")
@@ -80,7 +81,7 @@ def get_timeout():
         timeout = sys.argv[1]
     except:
         timeout = 20
-    return timeout
+    return int(timeout)
 
 def has_internet(timeout):
     url = "https://cabal.one/"
@@ -112,15 +113,15 @@ def vote_cabal(timeout):
         
 def main():
     while True:
-        if (has_internet()):
-            timeout = get_timeout()
+        timeout = get_timeout()
+        if (has_internet(timeout)):
             print("timeout: " + str(timeout))
             vote_cabal(timeout)
-        else
+        else:
             print("no se detecto conexion a internet, intentando nuevamente en 10 minutos...")
-            time.sleep(20)
+            time.sleep(600)
 
-
+main()
     
     
 
