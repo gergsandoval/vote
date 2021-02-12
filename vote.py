@@ -7,10 +7,13 @@ import sys
 import requests
 
 def get_credentials():
-    file = open('credentials.txt', "r")
-    credentials = file.readlines()
-    file.close()
-    return credentials
+    try:
+        file = open('credentials.txt', "r")
+        credentials = file.readlines()
+        file.close()
+        return credentials
+    except:
+         raise Exception("No se encontró el archivo credentials.txt")
 
 def init_driver(timeout):
     options = Options()
@@ -33,7 +36,10 @@ def log_in(driver, credentials):
     driver.find_element_by_id("loginform-password").send_keys(credentials[1])
     driver.find_element_by_xpath("//button[@class='button-big']").click()
     time.sleep(2)
-
+    error = driver.find_element_by_xpath("//p[@class='help-block help-block-error']").text
+    if (len(error) > 0):
+        raise Exception(error)
+    
 def vote(driver, number):
     countdown = None
     print("votando en sitio " + str(number) + "...")
@@ -80,7 +86,7 @@ def get_timeout():
     try:
         timeout = sys.argv[1]
     except:
-        timeout = 20
+        timeout = 30
     return int(timeout)
 
 def has_internet(timeout):
