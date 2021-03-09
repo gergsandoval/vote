@@ -17,7 +17,7 @@ def get_credentials():
 
 def init_driver(timeout):
     options = Options()
-    options.headless = False
+    options.headless = True
     options.add_argument('log-level=2')
     driver = webdriver.Chrome(options=options, executable_path='chromedriver.exe')
     driver.maximize_window()
