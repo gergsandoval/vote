@@ -30,11 +30,11 @@ def get_cabal_page(driver):
 
 def log_in(driver, credentials):
     print("ingresando credenciales...")
-    driver.find_element_by_xpath("//a[@class='cc-btn cc-dismiss']").click()
-    driver.find_element_by_xpath("//a[@data-title='LOGIN']").click()
+    driver.find_element_by_xpath("//a[text()='Got it!']").click()
+    driver.find_element_by_xpath("//a[text()='Log In']").click()
     driver.find_element_by_id("loginform-username").send_keys(credentials[0])
     driver.find_element_by_id("loginform-password").send_keys(credentials[1])
-    driver.find_element_by_xpath("//button[@class='button-big']").click()
+    driver.find_element_by_xpath("//button[text()='LOGIN']").click()
     time.sleep(2)
     error = driver.find_element_by_xpath("//p[@class='help-block help-block-error']").text
     if (len(error) > 0):
@@ -60,7 +60,7 @@ def print_coins(driver):
     print("verificando coins...")
     driver.get("https://cabal.one/account")
     time.sleep(2)
-    print(driver.find_element_by_xpath("//tbody/tr[7]").text)
+    print(driver.find_element_by_xpath("//tr//td[text()='Donation Coins']/..").text)
 
 def teardown_driver(driver):
     driver.quit()
@@ -117,6 +117,7 @@ def vote_cabal(timeout):
         print("----- ejecutado en " + str(execution_time) + " segundos -----")
         print("----- esperando " + str(round(total_hours, 2)) + " horas (" + str(final_countdown) + " segundos) -----")
         time.sleep(final_countdown)
+        
         
 def main():
     while True:
