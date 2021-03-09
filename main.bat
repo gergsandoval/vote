@@ -1,2 +1,2 @@
-python vote.py 10
+python vote.py
 pause
