@@ -63,7 +63,7 @@ def print_coins(driver):
     print(driver.find_element_by_xpath("//tbody/tr[7]").text)
 
 def teardown_driver(driver):
-    driver.close()
+    driver.quit()
 
 def calculate_next_iteration(countdown):
     hours = minutes = seconds = None
