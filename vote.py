@@ -133,10 +133,14 @@ def checkgoals(driver):
     print("verificando goals...")
     goals = driver.find_elements_by_xpath("//button[@data-progress=100]")
     print("goals reclamables: " + str(len(goals)))
+    goals_url = []
     for index, goal in enumerate(goals):
+        goal_url = "https://cabal.one" + goal.get_attribute("data-url")
+        goals_url.append(goal_url)
+    for index, goal_url in enumerate(goals_url):
         print("reclamando goal " + str(index + 1) + "...")
-        goal.click()
-        driver.find_element_by_xpath("//button[text()='OK']").click()
+        time.sleep(2)
+        driver.get(goal_url)
 
 main()
     
