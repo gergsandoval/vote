@@ -17,7 +17,7 @@ def get_credentials():
 
 def init_driver(timeout):
     options = Options()
-    options.headless = True
+    options.headless = False
     options.add_argument('log-level=2')
     driver = webdriver.Chrome(options=options, executable_path='chromedriver.exe')
     driver.maximize_window()
@@ -109,6 +109,7 @@ def vote_cabal(timeout):
         countdown_text2 = vote(driver, 2)
         countdown2 = calculate_next_iteration(countdown_text2)
         print_coins(driver)
+        checkgoals(driver)
         teardown_driver(driver)
         final_countdown = countdown2 if countdown2 > countdown1 else countdown1
         total_hours = final_countdown/3600
@@ -126,6 +127,16 @@ def main():
         else:
             print("no se detecto conexion a internet, intentando nuevamente en 10 minutos...")
             time.sleep(600)
+
+def checkgoals(driver):
+    driver.get("https://cabal.one/account/goals")
+    print("verificando goals...")
+    goals = driver.find_elements_by_xpath("//button[@data-progress=100]")
+    print("goals reclamables: " + str(len(goals)))
+    for index, goal in enumerate(goals):
+        print("reclamando goal " + str(index + 1) + "...")
+        goal.click()
+        driver.find_element_by_xpath("//button[text()='OK']").click()
 
 main()
     
